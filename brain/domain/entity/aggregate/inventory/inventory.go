@@ -1,22 +1,39 @@
 package inventory
 
 import (
+	"encoding/json"
+	"fmt"
 	"maps"
 	"slices"
 )
 
 type AnsibleInventory struct {
-	jsonStruct map[string]any
 	headGroups []string
 	groups     map[string]*AnsibleGroup `json:"-"`
+}
+
+func (i *AnsibleInventory) String() string {
+	return fmt.Sprintf("AnsibleInventory(headGroups=%s, groups=%s)", i.headGroups, i.groups)
 }
 
 func (i *AnsibleInventory) GetGroupsNames() []string {
 	return slices.Collect(maps.Keys(i.groups))
 }
 
+func (i *AnsibleInventory) MarshalJSON() ([]byte, error) {
+	res := make(map[string]any)
+	for k, v := range i.groups {
+		res[k] = v
+	}
+	res["_meta"] = &meta{}
+
+	return json.Marshal(res)
+}
+
+// TODO: migrate to MarshalJSON()
 func (i *AnsibleInventory) GetInventoryStruct() map[string]any {
-	return i.jsonStruct
+	result := make(map[string]any)
+	return result
 }
 
 func (i *AnsibleInventory) GetHeadGroups() []string {

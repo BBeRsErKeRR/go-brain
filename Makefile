@@ -16,5 +16,6 @@ help: ## Display this help
 	echo $$line | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'; fi; \
 	done; unset IFS;
 
+
 run_main:
 	go run main.go

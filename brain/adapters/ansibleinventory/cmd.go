@@ -8,8 +8,8 @@ import (
 	"github.com/bberserkerr/go-brain/pkg/command"
 )
 
-func parseCmd(logger interfaceadapters.Logger, stdOut, stdErr []byte) (map[string]any, error) {
-	return nil, nil
+func parseCmd(logger interfaceadapters.Logger, stdOut, stdErr []byte) (inventory.AnsibleInventory, error) {
+	return inventory.AnsibleInventory{}, nil
 }
 
 // TODO: resolve short/user path; trim paths
@@ -28,9 +28,10 @@ func NewCMDAnsibleInventory(ctx context.Context, logger interfaceadapters.Logger
 		return nil, err
 	}
 
-	jsonInventory, err := parseCmd(logger, stdOut, stdErr)
+	ansibleInventory, err := parseCmd(logger, stdOut, stdErr)
 	if err != nil {
 		return nil, err
 	}
 
+	return &ansibleInventory, nil
 }

@@ -9,9 +9,6 @@ import (
 )
 
 func main() {
-	test := &inventory.JsonInventory{
-		Groups: map[string]*inventory.AnsibleGroup{},
-	}
 	input := []byte(`{
 	"_meta": {
 		"hostvars": {
@@ -153,9 +150,14 @@ func main() {
 		"vars": {}
 	}
 }`)
-	err := json.Unmarshal(input, test)
+	inv, err := inventory.NewInventoryFromJson(input)
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println(test)
+	fmt.Println(inv)
+	res, err := json.Marshal(inv)
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Println(string(res))
 }
