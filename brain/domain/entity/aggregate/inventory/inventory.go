@@ -9,7 +9,7 @@ import (
 
 type AnsibleInventory struct {
 	headGroups []string
-	groups     map[string]*AnsibleGroup `json:"-"`
+	groups     map[string]*AnsibleGroup
 }
 
 func (i *AnsibleInventory) String() string {

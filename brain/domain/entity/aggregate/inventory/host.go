@@ -5,7 +5,7 @@ import (
 )
 
 type AnsibleHost struct {
-	name string `json:"-"`
+	name string
 	vars map[string]any
 }
 

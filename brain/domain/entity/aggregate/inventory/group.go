@@ -6,10 +6,10 @@ import (
 )
 
 type AnsibleGroup struct {
-	name   string          `json:"-"`
-	Vars   map[string]any  `json:"vars,omitempty"`
-	Childs []*AnsibleGroup `json:"children,omitempty"`
-	Hosts  []*AnsibleHost  `json:"hosts,omitempty"`
+	name   string
+	Vars   map[string]any
+	Childs []*AnsibleGroup
+	Hosts  []*AnsibleHost
 }
 
 func NewAnsibleGroup(name string) *AnsibleGroup {

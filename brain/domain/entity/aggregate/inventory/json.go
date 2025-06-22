@@ -15,7 +15,7 @@ type jgroup struct {
 	Hosts    []string       `json:"hosts,omitempty"`
 }
 
-func NewInventoryFromJson(jsonData []byte) (*AnsibleInventory, error) {
+func NewInventoryFromJson(jsonData string) (*AnsibleInventory, error) {
 	var rawInventory map[string]json.RawMessage
 	err := json.Unmarshal([]byte(jsonData), &rawInventory)
 	if err != nil {
@@ -38,23 +38,14 @@ func NewInventoryFromJson(jsonData []byte) (*AnsibleInventory, error) {
 		switch {
 		case key == "_meta":
 			continue
-		case key == "all":
-			var allGrp jgroup
-			err = json.Unmarshal(value, &allGrp)
-			if err != nil {
-				return nil, err
-			}
-			group := &AnsibleGroup{
-				name: key,
-				Vars: allGrp.Vars,
-			}
-			groups[key] = group
-			headGroups = allGrp.Children
 		default:
 			var jsonGrp jgroup
 			err = json.Unmarshal(value, &jsonGrp)
 			if err != nil {
 				return nil, err
+			}
+			if key == "all" {
+				headGroups = jsonGrp.Children
 			}
 
 			group, ok := groups[key]
